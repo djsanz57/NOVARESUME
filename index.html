@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaResume | AI-Powered Modern Resume Builder</title>
+    <meta name="description"
+        content="Create a professional, ATS-optimized resume in minutes with our AI-powered builder. Modern templates, real-time preview, and smart suggestions.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">✦</span>
+                <span class="logo-text">NovaResume</span>
+            </div>
+            <div class="header-actions">
+                <input type="file" id="resume-upload" accept=".pdf,.doc,.docx,.txt" style="display: none;">
+                <button id="btn-upload" class="btn secondary">
+                    <span class="btn-icon">📄</span> Upload Resume
+                </button>
+                <button id="btn-templates" class="btn secondary">Templates</button>
+                <button id="btn-customize" class="btn secondary">Customize</button>
+                <div class="divider"></div>
+                <button id="btn-export-pdf" class="btn primary">Export PDF</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar">
+                <ul class="nav-list">
+                    <li class="nav-item active" data-section="personal">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-label">Personal</span>
+                    </li>
+                    <li class="nav-item" data-section="summary">
+                        <span class="nav-icon">📝</span>
+                        <span class="nav-label">Summary</span>
+                    </li>
+                    <li class="nav-item" data-section="experience">
+                        <span class="nav-icon">💼</span>
+                        <span class="nav-label">Experience</span>
+                    </li>
+                    <li class="nav-item" data-section="education">
+                        <span class="nav-icon">🎓</span>
+                        <span class="nav-label">Education</span>
+                    </li>
+                    <li class="nav-item" data-section="skills">
+                        <span class="nav-icon">🛠️</span>
+                        <span class="nav-label">Skills</span>
+                    </li>
+                    <li class="nav-item" data-section="projects">
+                        <span class="nav-icon">🚀</span>
+                        <span class="nav-label">Projects</span>
+                    </li>
+                    <li class="nav-item" data-section="achievements">
+                        <span class="nav-icon">🏆</span>
+                        <span class="nav-label">Achievements</span>
+                    </li>
+                </ul>
+                <div class="sidebar-footer">
+                    <button id="btn-ai-transform" class="btn primary"
+                        style="width: 90%; margin: 0 auto 1rem auto; display: flex; justify-content: center; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #6366f1, #a855f7); border: none;">
+                        <span>✨</span> AI Transform
+                    </button>
+                    <div class="ats-toggle-container">
+                        <label class="switch">
+                            <input type="checkbox" id="ats-optimize">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="toggle-label">ATS Optimize</span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Editor Section -->
+            <section class="editor-pane">
+                <div id="form-container" class="form-container">
+                    <!-- Forms will be dynamic -->
+                </div>
+                <div class="ai-assistant-card">
+                    <div class="ai-header">
+                        <span class="ai-sparkle">✨</span>
+                        <h3>AI Assistant</h3>
+                    </div>
+                    <p id="ai-suggestion">Add your experience to get personalized suggestions.</p>
+                    <button id="btn-ai-improve" class="btn ai-btn">Improve Content</button>
+                </div>
+            </section>
+
+            <!-- Preview Section -->
+            <section class="preview-pane">
+                <div class="preview-toolbar">
+                    <div class="zoom-controls">
+                        <button id="zoom-out">-</button>
+                        <span id="zoom-level">100%</span>
+                        <button id="zoom-in">+</button>
+                    </div>
+                    <div class="theme-controls">
+                        <div class="color-dot active" style="background: #2563eb;" data-color="#2563eb"></div>
+                        <div class="color-dot" style="background: #10b981;" data-color="#10b981"></div>
+                        <div class="color-dot" style="background: #f59e0b;" data-color="#f59e0b"></div>
+                        <div class="color-dot" style="background: #6366f1;" data-color="#6366f1"></div>
+                    </div>
+                </div>
+                <div class="resume-canvas-wrapper">
+                    <div id="resume-preview" class="resume-preview minimalist">
+                        <!-- Resume content rendered here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Template Modal -->
+        <div id="template-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Choose a Template</h2>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="template-grid">
+                    <div class="template-card active" data-template="minimalist">
+                        <div class="template-thumb" id="thumb-minimalist"></div>
+                        <span>Minimalist</span>
+                    </div>
+                    <div class="template-card" data-template="corporate">
+                        <div class="template-thumb" id="thumb-corporate"></div>
+                        <span>Corporate</span>
+                    </div>
+                    <div class="template-card" data-template="creative">
+                        <div class="template-thumb" id="thumb-creative"></div>
+                        <span>Creative</span>
+                    </div>
+                    <div class="template-card" data-template="technical">
+                        <div class="template-thumb" id="thumb-technical"></div>
+                        <span>Technical</span>
+                    </div>
+                    <div class="template-card" data-template="executive">
+                        <div class="template-thumb" id="thumb-executive"></div>
+                        <span>Executive</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parsing Modal -->
+        <div id="parsing-modal" class="modal">
+            <div class="modal-content" style="max-width: 400px; text-align: center; padding: 3rem;">
+                <div class="spinner"></div>
+                <h2 style="margin-top: 1.5rem; color: var(--primary);">Analyzing Resume...</h2>
+                <p style="color: var(--text-muted); margin-top: 0.5rem;" id="parsing-status">Extracting your details
+                    using AI</p>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
