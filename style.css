@@ -504,6 +504,8 @@ input:checked+.slider:before {
     border-radius: var(--radius-lg);
     width: 80%;
     max-width: 900px;
+    max-height: 85vh;
+    overflow-y: auto;
     box-shadow: var(--shadow-lg);
 }
 
@@ -737,25 +739,47 @@ input:checked+.slider:before {
 
 @media print {
 
+    /* Reset all container restrictions so browser can paginate properly */
+    html,
+    body,
+    .app-container,
+    .main-content,
+    .preview-pane,
+    .resume-canvas-wrapper {
+        height: auto !important;
+        min-height: auto !important;
+        overflow: visible !important;
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: block !important;
+        position: static !important;
+    }
+
     .header,
     .sidebar,
     .editor-pane,
     .preview-toolbar {
-        display: none;
+        display: none !important;
     }
 
     .main-content {
-        display: block;
-    }
-
-    .preview-pane {
-        padding: 0;
-        background: white;
+        display: block !important;
     }
 
     .resume-preview {
-        box-shadow: none;
-        transform: none !important;
+        box-shadow: none !important;
+        transform: scale(1) !important;
+        /* Reset zoom */
+        margin: 0 auto !important;
+        width: 100% !important;
+        min-height: auto !important;
+        aspect-ratio: auto !important;
+        page-break-inside: avoid;
+    }
+
+    @page {
         margin: 0;
+        size: letter portrait;
     }
 }

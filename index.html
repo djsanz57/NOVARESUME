@@ -10,9 +10,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Document Parsing Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        // Bypass local file:// CORS restrictions for the PDF worker
+        const workerBlob = new Blob(
+            ["importScripts('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js');"],
+            { type: "text/javascript" }
+        );
+        pdfjsLib.GlobalWorkerOptions.workerPort = new Worker(URL.createObjectURL(workerBlob));
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 </head>
 
 <body>
@@ -24,12 +35,16 @@
                 <span class="logo-text">NovaResume</span>
             </div>
             <div class="header-actions">
+                <a href="mailto:djsanz57@gmail.com" class="btn secondary" style="text-decoration: none;">
+                    <span class="btn-icon" style="margin-right: 4px;">✉️</span> Contact Support
+                </a>
                 <input type="file" id="resume-upload" accept=".pdf,.doc,.docx,.txt" style="display: none;">
                 <button id="btn-upload" class="btn secondary">
                     <span class="btn-icon">📄</span> Upload Resume
                 </button>
                 <button id="btn-templates" class="btn secondary">Templates</button>
-                <button id="btn-customize" class="btn secondary">Customize</button>
+                <button id="btn-upgrade-cv" class="btn primary"
+                    style="background: linear-gradient(135deg, #f59e0b, #ea580c); border: none;">✨ Upgrade CV</button>
                 <div class="divider"></div>
                 <button id="btn-export-pdf" class="btn primary">Export PDF</button>
             </div>
@@ -67,18 +82,42 @@
                         <span class="nav-icon">🏆</span>
                         <span class="nav-label">Achievements</span>
                     </li>
+                    <li class="nav-item" data-section="certifications">
+                        <span class="nav-icon">📝</span>
+                        <span class="nav-label">Certifications</span>
+                    </li>
+                    <li class="nav-item" data-section="languages">
+                        <span class="nav-icon">🌍</span>
+                        <span class="nav-label">Languages</span>
+                    </li>
+                    <li class="nav-item" data-section="interests">
+                        <span class="nav-icon">🎨</span>
+                        <span class="nav-label">Interests</span>
+                    </li>
+                    <li class="nav-item" data-section="volunteer">
+                        <span class="nav-icon">🤝</span>
+                        <span class="nav-label">Volunteer</span>
+                    </li>
                 </ul>
                 <div class="sidebar-footer">
                     <button id="btn-ai-transform" class="btn primary"
                         style="width: 90%; margin: 0 auto 1rem auto; display: flex; justify-content: center; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #6366f1, #a855f7); border: none;">
                         <span>✨</span> AI Transform
                     </button>
+                    <div class="ats-toggle-container" style="margin-bottom: 0.5rem;"
+                        title="Automatically apply modern layout and AI phrasing when uploading a resume">
+                        <label class="switch">
+                            <input type="checkbox" id="auto-modernize" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="toggle-label" style="font-size: 0.85rem;">Auto-Modernize Uploads ✨</span>
+                    </div>
                     <div class="ats-toggle-container">
                         <label class="switch">
                             <input type="checkbox" id="ats-optimize">
                             <span class="slider round"></span>
                         </label>
-                        <span class="toggle-label">ATS Optimize</span>
+                        <span class="toggle-label" style="font-size: 0.85rem;">ATS Optimize</span>
                     </div>
                 </div>
             </nav>
